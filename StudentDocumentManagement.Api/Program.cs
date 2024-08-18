@@ -4,6 +4,7 @@ using StudentDocumentManagement.Infrastructure.Identity.Entities;
 using StudentDocumentManagement.Infrastructure.Identity;
 using StudentDocumentManagement.Core.Application;
 using StudentDocumentManagement.Infrastructure;
+using StudentDocumentManagement.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,9 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 //Agregando la capa de identity
 builder.Services.AddIdentityInfrastructure(builder.Configuration);
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -39,6 +43,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseExceptionHandler();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
