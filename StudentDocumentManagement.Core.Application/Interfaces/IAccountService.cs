@@ -7,7 +7,7 @@ public interface IAccountService
 {
     Task<ResultT<AuthenticationResponseDto>> AuthenticationAsync(AuthenticationRequestDto req);
     Task<Result> RegisterUserAsync(RegisterUserRequestDto req);
-    Task<Result> RegisterStudentAsync(RegisterStudentRequestDto req);
+    Task<ResultT<RegisterStudentResponseDto>> RegisterStudentAsync(RegisterStudentRequestDto req);
     Task<ResultT<List<UserDto>>> GetAllUsers();
     Task<ResultT<List<StudentDto>>> GetAllStudents();
     Task<ResultT<UserDto>> GetUserById(string id);
