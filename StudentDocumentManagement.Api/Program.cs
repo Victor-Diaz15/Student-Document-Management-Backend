@@ -1,3 +1,9 @@
+using Microsoft.AspNetCore.Identity;
+using StudentDocumentManagement.Infrastructure.Identity.Context;
+using StudentDocumentManagement.Infrastructure.Identity.Entities;
+using StudentDocumentManagement.Infrastructure.Identity;
+using StudentDocumentManagement.Core.Application;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +12,16 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//Configurando Identity para el manejo de usuarios y roles de nuestro sistema
+builder.Services.AddIdentity<UserApp, IdentityRole>()
+    .AddEntityFrameworkStores<IdentityContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddApplicationLayer();
+
+//Agregando la capa de identity
+builder.Services.AddIdentityInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
