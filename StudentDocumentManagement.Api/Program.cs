@@ -3,6 +3,7 @@ using StudentDocumentManagement.Infrastructure.Identity.Context;
 using StudentDocumentManagement.Infrastructure.Identity.Entities;
 using StudentDocumentManagement.Infrastructure.Identity;
 using StudentDocumentManagement.Core.Application;
+using StudentDocumentManagement.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,11 @@ builder.Services.AddIdentity<UserApp, IdentityRole>()
     .AddEntityFrameworkStores<IdentityContext>()
     .AddDefaultTokenProviders();
 
+//Agregando la capa de application
 builder.Services.AddApplicationLayer();
+
+//Agregando la capa de infrastructure
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 //Agregando la capa de identity
 builder.Services.AddIdentityInfrastructure(builder.Configuration);
