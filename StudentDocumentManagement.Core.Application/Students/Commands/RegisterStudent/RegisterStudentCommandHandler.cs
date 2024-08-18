@@ -1,17 +1,21 @@
-﻿using StudentDocumentManagement.Core.Application.Dtos.Accounts;
+﻿using MediatR;
+using StudentDocumentManagement.Core.Application.Dtos.Accounts;
 using StudentDocumentManagement.Core.Application.Interfaces;
 using StudentDocumentManagement.Core.Application.Interfaces.Messaging;
 using StudentDocumentManagement.Core.Application.Shared.Results;
+using StudentDocumentManagement.Core.Application.Students.Events.StudentRegistered;
 
 namespace StudentDocumentManagement.Core.Application.Students.Commands.RegisterStudent;
 
 internal class RegisterStudentCommandHandler : ICommandHandler<RegisterStudentCommand>
 {
     private readonly IAccountService _accountService;
+    private readonly IMediator _mediator;
 
-    public RegisterStudentCommandHandler(IAccountService accountService)
+    public RegisterStudentCommandHandler(IAccountService accountService, IMediator mediator)
     {
         _accountService = accountService;
+        _mediator = mediator;
     }
 
     public async Task<Result> Handle(RegisterStudentCommand request, CancellationToken cancellationToken)
@@ -29,6 +33,12 @@ internal class RegisterStudentCommandHandler : ICommandHandler<RegisterStudentCo
         };
 
         var result = await _accountService.RegisterStudentAsync(studentReqDto);
+
+        if (result.Success) 
+        {
+            var notification = new StudentRegisteredEvent(request.Email, result.Data!.Username, request.Password);
+            await _mediator.Publish(notification);
+        }
 
         return result;
     }
