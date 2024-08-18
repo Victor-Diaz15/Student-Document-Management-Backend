@@ -125,9 +125,9 @@ public class AccountService : IAccountService
         return res;
     }
 
-    public async Task<Result> RegisterStudentAsync(RegisterStudentRequestDto req)
+    public async Task<ResultT<RegisterStudentResponseDto>> RegisterStudentAsync(RegisterStudentRequestDto req)
     {
-        Result res = new();
+        ResultT<RegisterStudentResponseDto> res = new(new());
 
         var emailExist = await _userManager.FindByEmailAsync(req.Email);
         if (emailExist != null)
@@ -165,7 +165,8 @@ public class AccountService : IAccountService
 
         res.Success = true;
         res.Message = "Student registered.";
-
+        res.Data!.Id = user.Id;
+        res.Data.Username = user.UserName;
         return res;
     }
 
