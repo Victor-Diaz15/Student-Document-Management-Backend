@@ -1,17 +1,28 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using StudentDocumentManagement.Api.Filters;
 using StudentDocumentManagement.Core.Application.Accounts.Commands.DeleteAccount;
 using StudentDocumentManagement.Core.Application.Accounts.Commands.Login;
+using System.Net;
 
 namespace StudentDocumentManagement.Api.Controllers;
 
 [Route("api/account")]
 public class AccountController : ApiController
 {
-    public AccountController(ISender sender) : base(sender)
+    private readonly ILogger<AccountController> _logger;
+    public AccountController(ISender sender, ILogger<AccountController> logger) : base(sender)
     {
+        _logger = logger;
     }
 
+    [ServiceFilter(
+        typeof(
+        CommandValidatorFilter<LoginCommand, 
+            AccountController, 
+            LoginCommandValidator>
+        ))]
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginCommand loginCommand)
     {
