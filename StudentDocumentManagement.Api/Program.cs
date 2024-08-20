@@ -5,6 +5,8 @@ using StudentDocumentManagement.Infrastructure.Identity;
 using StudentDocumentManagement.Core.Application;
 using StudentDocumentManagement.Infrastructure;
 using StudentDocumentManagement.Api.Middlewares;
+using Serilog;
+using StudentDocumentManagement.Api.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,9 @@ builder.Services.AddIdentity<UserApp, IdentityRole>()
     .AddEntityFrameworkStores<IdentityContext>()
     .AddDefaultTokenProviders();
 
+
+builder.Services.AddScoped(typeof(CommandValidatorFilter<,,>));
+
 //Agregando la capa de application
 builder.Services.AddApplicationLayer();
 
@@ -28,6 +33,11 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 
 //Agregando la capa de identity
 builder.Services.AddIdentityInfrastructure(builder.Configuration);
+
+//Registrando Serilog y su configuracion
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.ReadFrom.Configuration(context.Configuration));
+
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();

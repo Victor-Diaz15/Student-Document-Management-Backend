@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using StudentDocumentManagement.Api.Filters;
+using StudentDocumentManagement.Core.Application.Accounts.Commands.Login;
 using StudentDocumentManagement.Core.Application.Students.Commands.RegisterStudent;
 using StudentDocumentManagement.Core.Application.Students.Queries.GetAll;
 using StudentDocumentManagement.Core.Application.Students.Queries.GetById;
@@ -43,6 +45,12 @@ public class StudentController : ApiController
         return result.Success ? Ok(result) : NotFound(new { result.Success, result.Message });
     }
 
+    [ServiceFilter(
+        typeof(
+        CommandValidatorFilter<RegisterStudentCommand, 
+            StudentController, 
+            RegisterStudentCommandValidator>
+        ))]
     [HttpPost("register")]
     public async Task<IActionResult> RegisterStudent([FromBody] RegisterStudentCommand command)
     {

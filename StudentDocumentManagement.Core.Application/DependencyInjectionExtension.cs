@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -12,9 +13,11 @@ public static class DependencyInjectionExtension
         //Agregando mediatR
         services.AddMediatR(config =>
         {
-            config.RegisterServicesFromAssembly(typeof(DependencyInjectionExtension).GetTypeInfo().Assembly);
+            config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
         });
 
+        //Fluent Validation
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         #region Services
 
