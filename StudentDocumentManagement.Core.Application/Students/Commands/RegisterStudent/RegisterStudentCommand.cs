@@ -9,6 +9,5 @@ public sealed record RegisterStudentCommand(
     string Email,
     string Password,
     string PhoneNumber,
-    int Rol,
     string ProfilePicture
     ) : ICommand;

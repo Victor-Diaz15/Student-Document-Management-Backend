@@ -16,6 +16,24 @@ internal class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand>
 
     public async Task<Result> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
+        var emailExisted = await _accountService.IsEmailUniqueAsync(request.Email);
+        if (emailExisted)
+        {
+            return new Result(false, $"Email '{request.Email}' already registered.");
+        }
+
+        var userExisted = await _accountService.IsUserNameUniqueAsync(request.UserName);
+        if (userExisted)
+        {
+            return new Result(false, $"Username '{request.UserName}' already registered.");
+        }
+
+        var identityCardExisted = await _accountService.IsIdentityCardUniqueAsync(request.IdentityCard);
+        if(identityCardExisted)
+        {
+            return new Result(false, $"IdentityCard '{request.IdentityCard}' already registered.");
+        }
+
         var userDto = new RegisterUserRequestDto()
         {
             IdentityCard = request.IdentityCard,

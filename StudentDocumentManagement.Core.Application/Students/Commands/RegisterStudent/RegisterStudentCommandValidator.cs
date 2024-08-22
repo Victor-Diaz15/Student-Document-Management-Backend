@@ -28,9 +28,6 @@ public class RegisterStudentCommandValidator : AbstractValidator<RegisterStudent
         RuleFor(x => x.PhoneNumber)
             .NotEmpty()
             .Length(10);
-
-        RuleFor(x => x.Rol)
-            .NotEmpty();
         
     }
 }
