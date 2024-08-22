@@ -18,4 +18,7 @@ public interface IAccountService
     Task SignOutAsync();
     Task<Result> DeleteUserAsync(string id);
     Task<ResultT<string>> ConfirmAccountAsync(string userId, string token);
+    Task<bool> IsEmailUniqueAsync(string email);
+    Task<bool> IsUserNameUniqueAsync(string userName);
+    Task<bool> IsIdentityCardUniqueAsync(string identityCard);
 }
