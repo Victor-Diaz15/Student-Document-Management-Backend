@@ -77,7 +77,7 @@ public static class DependencyInjectionExtension
             };
         });
 
-        services.AddTransient<IAccountService, AccountService>();
+        services.AddScoped<IAccountService, AccountService>();
 
         return services;
     }
