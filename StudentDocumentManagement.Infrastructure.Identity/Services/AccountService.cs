@@ -67,22 +67,6 @@ public class AccountService : IAccountService
     {
         Result res = new();
 
-        var userNameExist = await _userManager.FindByNameAsync(req.UserName);
-        if (userNameExist != null)
-        {
-            res.Success = false;
-            res.Message = $"User '{req.UserName}' already exist.";
-            return res;
-        }
-
-        var emailExist = await _userManager.FindByEmailAsync(req.Email);
-        if (emailExist != null)
-        {
-            res.Success = false;
-            res.Message = $"Email '{req.Email}' already registered.";
-            return res;
-        }
-
         var user = new UserApp
         {
             IdentityCard = req.IdentityCard,
@@ -100,7 +84,7 @@ public class AccountService : IAccountService
         if (!result.Succeeded)
         {
             res.Success = false;
-            res.Message = $"An error occurred when trying to register the user.";
+            res.Message = result.Errors.FirstOrDefault()!.Description ?? "An error occurred when trying to register the user.";
             return res;
         }
 
@@ -129,14 +113,6 @@ public class AccountService : IAccountService
     {
         ResultT<RegisterStudentResponseDto> res = new(new());
 
-        var emailExist = await _userManager.FindByEmailAsync(req.Email);
-        if (emailExist != null)
-        {
-            res.Success = false;
-            res.Message = $"Email '{req.Email}' already registered.";
-            return res;
-        }
-
         string studenId = GenerateStudentId();
 
         var user = new Student
@@ -148,7 +124,7 @@ public class AccountService : IAccountService
             UserName = studenId,
             Email = req.Email,
             PhoneNumber = req.PhoneNumber,
-            Rol = req.Rol,
+            Rol = (int)Roles.Student,
             ProfilePicture = req.ProfilePicture
         };
 
@@ -157,7 +133,7 @@ public class AccountService : IAccountService
         if (!result.Succeeded)
         {
             res.Success = false;
-            res.Message = $"An error occurred when trying to register the user.";
+            res.Message = result.Errors.FirstOrDefault()!.Description ?? "An error occurred when trying to register the user.";
             return res;
         }
 
@@ -187,7 +163,7 @@ public class AccountService : IAccountService
         if (!result.Succeeded)
         {
             res.Success = false;
-            res.Message = $"An error occurred while reset the password.";
+            res.Message = result.Errors.FirstOrDefault()!.Description ?? "An error occurred when trying to reset the user password.";
             return res;
         }
 
@@ -383,7 +359,7 @@ public class AccountService : IAccountService
             if (!userUpdated.Succeeded)
             {
                 res.Success = false;
-                res.Message = "Error when trying update the user";
+                res.Message = userUpdated.Errors.FirstOrDefault()!.Description ?? "An error occurred when trying to update the user."; ;
                 return res;
 
             }
@@ -435,6 +411,21 @@ public class AccountService : IAccountService
     public async Task SignOutAsync()
     {
         await _signInManager.SignOutAsync();
+    }
+
+    public async Task<bool> IsEmailUniqueAsync(string email)
+    {
+        return await _identityDbContext.Users.AnyAsync(u => u.NormalizedEmail == email.ToUpper());
+    }
+
+    public async Task<bool> IsUserNameUniqueAsync(string userName)
+    {
+        return await _identityDbContext.Users.AnyAsync(x => x.NormalizedUserName == userName.ToUpper());
+    }
+
+    public async Task<bool> IsIdentityCardUniqueAsync(string identityCard)
+    {
+        return await _identityDbContext.Users.AnyAsync(x => x.IdentityCard == identityCard);
     }
 
     #region private methods
