@@ -20,6 +20,18 @@ internal class RegisterStudentCommandHandler : ICommandHandler<RegisterStudentCo
 
     public async Task<Result> Handle(RegisterStudentCommand request, CancellationToken cancellationToken)
     {
+        var emailExisted = await _accountService.IsEmailUniqueAsync(request.Email);
+        if (emailExisted)
+        {
+            return new Result(false, $"Email '{request.Email}' already registered.");
+        }
+
+        var identityCardExisted = await _accountService.IsIdentityCardUniqueAsync(request.IdentityCard);
+        if (identityCardExisted)
+        {
+            return new Result(false, $"IdentityCard '{request.IdentityCard}' already registered.");
+        }
+
         var studentReqDto = new RegisterStudentRequestDto()
         {
             IdentityCard = request.IdentityCard,
@@ -28,8 +40,7 @@ internal class RegisterStudentCommandHandler : ICommandHandler<RegisterStudentCo
             Email = request.Email,
             Password = request.Password,
             PhoneNumber = request.PhoneNumber,
-            ProfilePicture = request.ProfilePicture,
-            Rol = request.Rol
+            ProfilePicture = request.ProfilePicture
         };
 
         var result = await _accountService.RegisterStudentAsync(studentReqDto);
