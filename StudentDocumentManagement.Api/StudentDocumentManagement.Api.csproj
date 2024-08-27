@@ -21,4 +21,8 @@
     <ProjectReference Include="..\StudentDocumentManagement.Infrastructure\StudentDocumentManagement.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>
