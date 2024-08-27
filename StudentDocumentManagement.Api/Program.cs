@@ -26,7 +26,7 @@ builder.Services.AddIdentity<UserApp, IdentityRole>()
 builder.Services.AddScoped(typeof(CommandValidatorFilter<,,>));
 
 //Agregando la capa de application
-builder.Services.AddApplicationLayer();
+builder.Services.AddApplicationLayer(builder.Configuration);
 
 //Agregando la capa de infrastructure
 builder.Services.AddInfrastructureServices(builder.Configuration);
@@ -59,6 +59,10 @@ app.UseCors(opt =>
     .AllowAnyHeader());
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+
+app.UseRouting();
 
 app.UseExceptionHandler();
 

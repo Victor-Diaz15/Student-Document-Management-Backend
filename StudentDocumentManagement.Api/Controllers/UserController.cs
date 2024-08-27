@@ -36,7 +36,7 @@ public class UserController(ISender sender) : ApiController(sender)
             RegisterUserCommandValidator>
         ))]
     [HttpPost("register")]
-    public async Task<IActionResult> RegisterUser([FromBody] RegisterUserCommand command)
+    public async Task<IActionResult> RegisterUser([FromForm] RegisterUserCommand command)
     {
         var result = await Sender.Send(command);
 

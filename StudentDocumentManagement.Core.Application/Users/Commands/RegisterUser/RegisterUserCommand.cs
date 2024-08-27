@@ -1,4 +1,6 @@
-﻿using StudentDocumentManagement.Core.Application.Interfaces.Messaging;
+﻿using Microsoft.AspNetCore.Http;
+using StudentDocumentManagement.Core.Application.Interfaces.Messaging;
+using System.ComponentModel.DataAnnotations;
 
 namespace StudentDocumentManagement.Core.Application.Users.Commands.RegisterUser;
 
@@ -11,5 +13,6 @@ public sealed record RegisterUserCommand(
     string Password,
     string PhoneNumber,
     int Rol,
-    string ProfilePicture
+    [DataType(DataType.Upload)]
+    IFormFile? ProfilePicture
     ) : ICommand;

@@ -11,11 +11,14 @@ internal class RegisterStudentCommandHandler : ICommandHandler<RegisterStudentCo
 {
     private readonly IAccountService _accountService;
     private readonly IMediator _mediator;
+    private readonly IStorageFile _storageFile;
+    private readonly string contenedor = "students";
 
-    public RegisterStudentCommandHandler(IAccountService accountService, IMediator mediator)
+    public RegisterStudentCommandHandler(IAccountService accountService, IMediator mediator, IStorageFile storageFile)
     {
         _accountService = accountService;
         _mediator = mediator;
+        _storageFile = storageFile;
     }
 
     public async Task<Result> Handle(RegisterStudentCommand request, CancellationToken cancellationToken)
@@ -32,6 +35,22 @@ internal class RegisterStudentCommandHandler : ICommandHandler<RegisterStudentCo
             return new Result(false, $"IdentityCard '{request.IdentityCard}' already registered.");
         }
 
+        //Logica de cargar la foto de perfil del usuario
+        string profilePictureUrl = "";
+
+        if (request.ProfilePicture != null)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await request.ProfilePicture.CopyToAsync(memoryStream, cancellationToken);
+                var contenido = memoryStream.ToArray();
+                var extension = Path.GetExtension(request.ProfilePicture.FileName);
+
+                profilePictureUrl = await _storageFile
+                    .SaveFile(contenido, extension, contenedor, request.ProfilePicture.ContentType);
+            }
+        }
+
         var studentReqDto = new RegisterStudentRequestDto()
         {
             IdentityCard = request.IdentityCard,
@@ -40,7 +59,7 @@ internal class RegisterStudentCommandHandler : ICommandHandler<RegisterStudentCo
             Email = request.Email,
             Password = request.Password,
             PhoneNumber = request.PhoneNumber,
-            ProfilePicture = request.ProfilePicture
+            ProfilePicture = profilePictureUrl
         };
 
         var result = await _accountService.RegisterStudentAsync(studentReqDto);

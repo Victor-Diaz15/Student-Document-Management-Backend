@@ -52,7 +52,7 @@ public class StudentController : ApiController
             RegisterStudentCommandValidator>
         ))]
     [HttpPost("register")]
-    public async Task<IActionResult> RegisterStudent([FromBody] RegisterStudentCommand command)
+    public async Task<IActionResult> RegisterStudent([FromForm] RegisterStudentCommand command)
     {
         var result = await Sender.Send(command);
 

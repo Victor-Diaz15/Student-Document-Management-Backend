@@ -8,10 +8,13 @@ namespace StudentDocumentManagement.Core.Application.Users.Commands.RegisterUser
 internal class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand>
 {
     private readonly IAccountService _accountService;
+    private readonly IStorageFile _storageFile;
+    private readonly string contenedor = "users";
 
-    public RegisterUserCommandHandler(IAccountService accountService)
+    public RegisterUserCommandHandler(IAccountService accountService, IStorageFile storageFile)
     {
         _accountService = accountService;
+        _storageFile = storageFile;
     }
 
     public async Task<Result> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -34,6 +37,23 @@ internal class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand>
             return new Result(false, $"IdentityCard '{request.IdentityCard}' already registered.");
         }
 
+
+        //Logica de cargar la foto de perfil del usuario
+        string profilePictureUrl = "";
+
+        if (request.ProfilePicture != null) 
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await request.ProfilePicture.CopyToAsync(memoryStream, cancellationToken);
+                var contenido = memoryStream.ToArray();
+                var extension = Path.GetExtension(request.ProfilePicture.FileName);
+
+                profilePictureUrl = await _storageFile
+                    .SaveFile(contenido, extension, contenedor, request.ProfilePicture.ContentType);
+            }
+        }
+
         var userDto = new RegisterUserRequestDto()
         {
             IdentityCard = request.IdentityCard,
@@ -44,7 +64,7 @@ internal class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand>
             Password = request.Password,
             PhoneNumber = request.PhoneNumber,
             Rol = request.Rol,
-            ProfilePicture = request.ProfilePicture,
+            ProfilePicture = profilePictureUrl,
         };
 
         var result = await _accountService.RegisterUserAsync(userDto);
