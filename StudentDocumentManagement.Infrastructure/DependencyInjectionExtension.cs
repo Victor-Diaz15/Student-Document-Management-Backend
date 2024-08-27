@@ -13,7 +13,11 @@ public static class DependencyInjectionExtension
     {
 
         services.Configure<MailSettings>(config.GetSection("MailSettings"));
+
+        services.AddHttpContextAccessor();
+
         services.AddTransient<IEmailService, EmailService>();
+        services.AddTransient<IStorageFile, StorageFileLocalService>();
 
         return services;
     }
