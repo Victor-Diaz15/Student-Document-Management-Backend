@@ -4,6 +4,7 @@ using StudentDocumentManagement.Infrastructure.Identity.Entities;
 using StudentDocumentManagement.Infrastructure.Identity;
 using StudentDocumentManagement.Core.Application;
 using StudentDocumentManagement.Infrastructure;
+using StudentDocumentManagement.Infrastructure.Persistence;
 using StudentDocumentManagement.Api.Middlewares;
 using Serilog;
 using StudentDocumentManagement.Api.Filters;
@@ -33,6 +34,9 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 
 //Agregando la capa de identity
 builder.Services.AddIdentityInfrastructure(builder.Configuration);
+
+//Agregando la capa de persistencia de datos
+builder.Services.AddInfrastructurePersistence(builder.Configuration);
 
 //Registrando Serilog y su configuracion
 builder.Host.UseSerilog((context, configuration) =>
