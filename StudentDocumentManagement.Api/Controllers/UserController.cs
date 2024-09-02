@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using StudentDocumentManagement.Api.Filters;
-using StudentDocumentManagement.Core.Application.Students.Commands.RegisterStudent;
 using StudentDocumentManagement.Core.Application.Users.Commands.RegisterUser;
 using StudentDocumentManagement.Core.Application.Users.Queries.GetAll;
 using StudentDocumentManagement.Core.Application.Users.Queries.GetById;
