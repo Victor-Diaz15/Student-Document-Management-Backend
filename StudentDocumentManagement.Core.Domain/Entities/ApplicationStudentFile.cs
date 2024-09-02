@@ -1,8 +1,6 @@
-﻿using StudentDocumentManagement.Core.Domain.Commons;
+﻿namespace StudentDocumentManagement.Core.Domain.Entities;
 
-namespace StudentDocumentManagement.Core.Domain.Entities;
-
-public class ApplicationStudentFile : AuditableEntityBase
+public class ApplicationStudentFile
 {
     public Guid ApplicationId { get; set; }
     public Application Application { get; set; } = new();
