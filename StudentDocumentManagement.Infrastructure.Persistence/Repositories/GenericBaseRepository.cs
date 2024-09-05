@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace StudentDocumentManagement.Infrastructure.Persistence.Repositories;
 
-public class GenericBaseRepository<Entity> : IGenericRepository<Entity>
+public class GenericBaseRepository<Entity> : IGenericBaseRepository<Entity>
     where Entity : class, IEntityBase
 {
     private readonly MainDbContext _dbContext;
@@ -90,21 +90,21 @@ public class GenericBaseRepository<Entity> : IGenericRepository<Entity>
     /// Method to edit an entity as needed.
     /// </summary>
     /// <param name="entity"></param>
-    public virtual void UpdateEntityAsync(Entity entity) =>
+    public virtual void UpdateEntity(Entity entity) =>
         _dbSet.Update(entity);
 
     /// <summary>
     /// Method to delete any entity
     /// </summary>
     /// <param name="entity"></param>
-    public virtual void DeleteEntityAsync(Entity entity) =>
+    public virtual void DeleteEntity(Entity entity) =>
         _dbSet.Remove(entity);
 
     /// <summary>
     /// Method to make a logical deletion of any record of any entity
     /// </summary>
     /// <param name="entity"></param>
-    public virtual void SoftDeleteAsync(Entity entity)
+    public virtual void SoftDelete(Entity entity)
     {
         var deleteEntity = entity.GetType();
         var prop = deleteEntity.GetProperty("Borrado");

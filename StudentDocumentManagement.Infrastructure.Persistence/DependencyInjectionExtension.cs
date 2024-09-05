@@ -18,7 +18,8 @@ public static class DependencyInjectionExtension
             ));
 
         //Repositories
-        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericBaseRepository<>));
+        services.AddScoped(typeof(IGenericBaseRepository<>), typeof(GenericBaseRepository<>));
+        services.AddScoped<IStudentFileRepository, StudentFileRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;

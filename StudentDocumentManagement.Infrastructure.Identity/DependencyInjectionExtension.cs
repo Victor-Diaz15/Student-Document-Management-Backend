@@ -54,6 +54,15 @@ public static class DependencyInjectionExtension
             {
                 OnAuthenticationFailed = e =>
                 {
+                    if (e.Exception is SecurityTokenExpiredException)
+                    {
+                        e.NoResult();
+                        e.Response.StatusCode = 401;
+                        e.Response.ContentType = "application/json";
+                        var result = JsonConvert.SerializeObject(new { success = false, message = "Token expired" });
+                        return e.Response.WriteAsync(result);
+                    }
+
                     e.NoResult();
                     e.Response.StatusCode = 500;
                     e.Response.ContentType = "text/plain";
@@ -61,18 +70,26 @@ public static class DependencyInjectionExtension
                 },
                 OnChallenge = e =>
                 {
-                    e.HandleResponse();
-                    e.Response.StatusCode = 401;
-                    e.Response.ContentType = "application/json";
-                    var result = JsonConvert.SerializeObject(new Result(true, "You're not authorized"));
-                    return e.Response.WriteAsync(result);
+                    if (!e.Response.HasStarted)
+                    {
+                        e.HandleResponse();
+                        e.Response.StatusCode = 401;
+                        e.Response.ContentType = "application/json";
+                        var result = JsonConvert.SerializeObject(new { success = false, message = "You're not authorized" });
+                        return e.Response.WriteAsync(result);
+                    }
+                    return Task.CompletedTask;
                 },
                 OnForbidden = e =>
                 {
-                    e.Response.StatusCode = 403;
-                    e.Response.ContentType = "application/json";
-                    var result = JsonConvert.SerializeObject(new Result(true, "You're not authorized to access this resource"));
-                    return e.Response.WriteAsync(result);
+                    if (!e.Response.HasStarted)
+                    {
+                        e.Response.StatusCode = 403;
+                        e.Response.ContentType = "application/json";
+                        var result = JsonConvert.SerializeObject(new { success = false, message = "You're not authorized to access this resource" });
+                        return e.Response.WriteAsync(result);
+                    }
+                    return Task.CompletedTask;
                 }
             };
         });

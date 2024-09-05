@@ -2,7 +2,7 @@
 
 namespace StudentDocumentManagement.Core.Domain.Abstractions;
 
-public interface IGenericRepository<TEntity>
+public interface IGenericBaseRepository<TEntity>
     where TEntity : class, IEntityBase
 {
     Task<List<TEntity>> GetAllAsync();
@@ -12,8 +12,8 @@ public interface IGenericRepository<TEntity>
     Task<TEntity?> GetByIdAsync(Guid id);
     Task AddEntityAsync(TEntity TEntity);
     Task AddRangeEntityAsync(List<TEntity> entities);
-    void UpdateEntityAsync(TEntity TEntity);
-    void DeleteEntityAsync(TEntity TEntity);
-    void SoftDeleteAsync(TEntity TEntity);
+    void UpdateEntity(TEntity TEntity);
+    void DeleteEntity(TEntity TEntity);
+    void SoftDelete(TEntity TEntity);
     IQueryable<TEntity> GetQueryable();
 }

@@ -1,22 +1,17 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using StudentDocumentManagement.Api.Filters;
-using StudentDocumentManagement.Core.Application.Accounts.Commands.Login;
 using StudentDocumentManagement.Core.Application.Students.Commands.RegisterStudent;
 using StudentDocumentManagement.Core.Application.Students.Queries.GetAll;
 using StudentDocumentManagement.Core.Application.Students.Queries.GetById;
 using StudentDocumentManagement.Core.Application.Students.Queries.GetByStudentId;
-using StudentDocumentManagement.Core.Application.Users.Commands.RegisterUser;
-using StudentDocumentManagement.Core.Application.Users.Queries.GetById;
 
 namespace StudentDocumentManagement.Api.Controllers;
 
 [Route("api/student")]
 public class StudentController : ApiController
 {
-    public StudentController(ISender sender) : base(sender)
-    {
-    }
+    public StudentController(ISender sender) : base(sender){}
 
     [HttpGet()]
     public async Task<IActionResult> GetAllStudents()

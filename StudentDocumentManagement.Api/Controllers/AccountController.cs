@@ -1,10 +1,8 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using StudentDocumentManagement.Api.Filters;
 using StudentDocumentManagement.Core.Application.Accounts.Commands.DeleteAccount;
 using StudentDocumentManagement.Core.Application.Accounts.Commands.Login;
-using System.Net;
 
 namespace StudentDocumentManagement.Api.Controllers;
 

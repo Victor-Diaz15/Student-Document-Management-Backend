@@ -8,6 +8,7 @@ using StudentDocumentManagement.Infrastructure.Persistence;
 using StudentDocumentManagement.Api.Middlewares;
 using Serilog;
 using StudentDocumentManagement.Api.Filters;
+using StudentDocumentManagement.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerExtension();
 
 //Configurando Identity para el manejo de usuarios y roles de nuestro sistema
 builder.Services.AddIdentity<UserApp, IdentityRole>()
@@ -48,14 +50,13 @@ builder.Services.AddProblemDetails();
 
 builder.Services.AddCors();
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors(opt => 
     opt.AllowAnyOrigin()
@@ -72,6 +73,8 @@ app.UseExceptionHandler();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseHealthChecks("/health");
 
 app.MapControllers();
 
