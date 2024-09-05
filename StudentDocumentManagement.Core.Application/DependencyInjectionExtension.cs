@@ -21,6 +21,7 @@ public static class DependencyInjectionExtension
         services.Configure<FileUploadSettings>(configuration.GetSection("FileUploadSettings"));
 
         //Fluent Validation
+        services.AddHttpContextAccessor();
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         return services;
