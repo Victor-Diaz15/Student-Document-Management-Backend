@@ -9,5 +9,5 @@ public class StudentFile : AuditableEntityBase
     public string Url { get; set; } = string.Empty;
     public StudentFileType? FileType { get; set; }
     public FileStatus Status { get; set; }
-    public List<ApplicationStudentFile> ApplicationsFiles { get; set; } = [];
+    public List<ApplicationStudentFile>? ApplicationsFiles { get; set; }
 }

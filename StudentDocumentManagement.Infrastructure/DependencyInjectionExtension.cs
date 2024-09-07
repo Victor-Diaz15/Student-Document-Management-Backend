@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StudentDocumentManagement.Core.Application.Interfaces;
 using StudentDocumentManagement.Core.Domain.Settings;
 using StudentDocumentManagement.Infrastructure.Services;
+using System.Reflection;
 
 namespace StudentDocumentManagement.Infrastructure;
 
@@ -13,6 +14,8 @@ public static class DependencyInjectionExtension
     {
 
         services.Configure<MailSettings>(config.GetSection("MailSettings"));
+
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         services.AddHttpContextAccessor();
 

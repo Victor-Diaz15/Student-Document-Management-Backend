@@ -7,7 +7,7 @@ public class Application : AuditableEntityBase
 {
     public Guid StudentId { get; set; }
     public Guid ServiceId { get; set; }
-    public Service Service { get; set; } = new();
+    public Service? Service { get; set; }
     public ApplicationStatus Status { get; set; }
-    public List<ApplicationStudentFile> Files { get; set; } = [];
+    public List<ApplicationStudentFile>? Files { get; set; }
 }

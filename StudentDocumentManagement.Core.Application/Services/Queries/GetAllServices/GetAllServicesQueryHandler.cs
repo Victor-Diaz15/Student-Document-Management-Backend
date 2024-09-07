@@ -30,7 +30,7 @@ internal class GetAllServicesQueryHandler : IQueryHandler<GetAllServicesQuery, L
                     Id = service.Id,
                     Name = service.Name,
                     Price = service.Price,
-                    ServiceType = ServiceTypeHelper.GetServiceType(service.ServiceType)
+                    ServiceType = service.ServiceType.ToString()
                 });
             }
 

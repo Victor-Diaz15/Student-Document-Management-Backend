@@ -26,8 +26,8 @@ internal class GetStudentFileByIdQueryHandler : IQueryHandler<GetStudentFileById
                 Id = file.Id,
                 StudentId = file.StudentId,
                 FileUrl = file.Url,
-                FileType = StudentFileFuncionts.GetFileType(file.FileType),
-                Status = StudentFileFuncionts.GetFileStatus(file.Status)
+                FileType = file.FileType.ToString()!,
+                Status = file.Status.ToString()
             };
 
             return new ResultT<StudentFileDto>(true, "Retrieving Student File", fileDto);

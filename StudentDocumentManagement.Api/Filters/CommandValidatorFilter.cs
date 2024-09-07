@@ -10,6 +10,8 @@ namespace StudentDocumentManagement.Api.Filters;
 
 public class CommandValidatorFilter<TCommand, Controller, Validator> : ActionFilterAttribute
     where TCommand : class
+    where Controller : ApiController
+    where Validator : AbstractValidator<TCommand>
 {
     private readonly IValidator<TCommand> _validator;
     private readonly ILogger<TCommand> _logger;
