@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudentDocumentManagement.Core.Domain.Entities;
+using StudentDocumentManagement.Core.Domain.Enums;
 
 namespace StudentDocumentManagement.Core.Domain.SeedData;
 
