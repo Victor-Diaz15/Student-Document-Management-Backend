@@ -24,4 +24,16 @@ public class ApplicationRepository : GenericBaseRepository<Application>, IApplic
 
         return list;
     }
+
+    public async Task<Application?> GetByIdWithIncludeAndThenInclude(Guid applicationId)
+    {
+        var application = await _dbContext.Applications
+            .AsNoTracking()
+            .Include(x => x.Service!)
+            .Include(x => x.Files!)
+            .ThenInclude(x => x.StudentFile)
+            .FirstOrDefaultAsync(x => x.Id == applicationId);
+
+        return application;
+    }
 }
