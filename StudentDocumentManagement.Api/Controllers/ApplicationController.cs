@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using StudentDocumentManagement.Api.Filters;
 using StudentDocumentManagement.Core.Application.Applications.Commands.AddApplication;
 using StudentDocumentManagement.Core.Application.Applications.Queries.GetAllApplications;
+using StudentDocumentManagement.Core.Application.Applications.Queries.GetApplicationById;
 using StudentDocumentManagement.Core.Application.Students.Commands.RegisterStudent;
 
 namespace StudentDocumentManagement.Api.Controllers;
 
 [Route("api/application")]
+[Authorize]
 public class ApplicationController : ApiController
 {
     public ApplicationController(ISender sender) : base(sender)
@@ -26,6 +28,16 @@ public class ApplicationController : ApiController
         return result.Success ? Ok(result) : NotFound(result);
     }
 
+    [HttpGet("{applicationId:guid}")]
+    public async Task<IActionResult> GetApplicationById(Guid applicationId)
+    {
+        var query = new GetApplicationByIdQuery(applicationId);
+
+        var result = await Sender.Send(query);
+
+        return result.Success ? Ok(result) : NotFound(result);
+    }
+
 
     [ServiceFilter(
         typeof(
@@ -33,7 +45,6 @@ public class ApplicationController : ApiController
             ApplicationController,
             AddApplicationCommandValidator>
         ))]
-    [Authorize]
     [HttpPost()]
     public async Task<IActionResult> AddApplication([FromBody] AddApplicationCommand command)
     {

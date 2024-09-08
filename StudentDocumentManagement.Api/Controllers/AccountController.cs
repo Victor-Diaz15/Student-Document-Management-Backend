@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using StudentDocumentManagement.Api.Filters;
 using StudentDocumentManagement.Core.Application.Accounts.Commands.DeleteAccount;
 using StudentDocumentManagement.Core.Application.Accounts.Commands.Login;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StudentDocumentManagement.Api.Controllers;
 
@@ -29,6 +30,7 @@ public class AccountController : ApiController
         return result.Success ? Ok(result) : BadRequest(new { result.Success, result.Message });
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteAccount(string id)
     {
