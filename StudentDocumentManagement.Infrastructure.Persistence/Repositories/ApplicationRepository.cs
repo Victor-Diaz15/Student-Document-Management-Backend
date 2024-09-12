@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudentDocumentManagement.Core.Domain.Abstractions;
 using StudentDocumentManagement.Core.Domain.Entities;
+using StudentDocumentManagement.Core.Domain.Enums;
 using StudentDocumentManagement.Infrastructure.Persistence.Contexts;
 
 namespace StudentDocumentManagement.Infrastructure.Persistence.Repositories;
@@ -24,6 +25,37 @@ public class ApplicationRepository : GenericBaseRepository<Application>, IApplic
 
         return list;
     }
+
+    public async Task<List<Application>> GetApplicationsByFilters(string? studentId, string? serviceId, ApplicationStatus? status)
+    {
+        var resultList = new List<Application>();
+        var query = base.GetQueryable();
+
+        if (!string.IsNullOrEmpty(studentId))
+        {
+            query = query.Where(x => x.StudentId.ToString() == studentId);
+        }
+
+        if (!string.IsNullOrEmpty(serviceId))
+        {
+            query = query.Where(x => x.ServiceId.ToString() == serviceId);
+        }
+
+        if(status != null)
+        {
+            query = query.Where(x => x.Status == status);
+        }
+
+        query = query.Include(x => x.Service!)
+            .Include(x => x.Files!)
+            .ThenInclude(x => x.StudentFile)
+            .AsNoTracking();
+
+        resultList = await query.ToListAsync();
+
+        return resultList;
+    }
+
 
     public async Task<Application?> GetByIdWithIncludeAndThenInclude(Guid applicationId)
     {

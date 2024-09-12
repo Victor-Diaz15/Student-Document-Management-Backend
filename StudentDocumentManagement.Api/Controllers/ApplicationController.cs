@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using StudentDocumentManagement.Api.Filters;
 using StudentDocumentManagement.Core.Application.Applications.Commands.AddApplication;
 using StudentDocumentManagement.Core.Application.Applications.Queries.GetAllApplications;
+using StudentDocumentManagement.Core.Application.Applications.Queries.GetApplicationByFilters;
 using StudentDocumentManagement.Core.Application.Applications.Queries.GetApplicationById;
-using StudentDocumentManagement.Core.Application.Students.Commands.RegisterStudent;
 
 namespace StudentDocumentManagement.Api.Controllers;
 
@@ -28,6 +28,14 @@ public class ApplicationController : ApiController
         return result.Success ? Ok(result) : NotFound(result);
     }
 
+    [HttpGet("filters")]
+    public async Task<IActionResult> GetAllApplicationsByFilters([FromQuery] GetApplicationsByFiltersQuery query)
+    {
+        var result = await Sender.Send(query);
+
+        return result.Success ? Ok(result) : NotFound(result);
+    }
+
     [HttpGet("{applicationId:guid}")]
     public async Task<IActionResult> GetApplicationById(Guid applicationId)
     {
@@ -37,7 +45,6 @@ public class ApplicationController : ApiController
 
         return result.Success ? Ok(result) : NotFound(result);
     }
-
 
     [ServiceFilter(
         typeof(
