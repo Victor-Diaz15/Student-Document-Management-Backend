@@ -6,6 +6,7 @@ using StudentDocumentManagement.Core.Application.Applications.Commands.AddApplic
 using StudentDocumentManagement.Core.Application.Applications.Queries.GetAllApplications;
 using StudentDocumentManagement.Core.Application.Applications.Queries.GetApplicationByFilters;
 using StudentDocumentManagement.Core.Application.Applications.Queries.GetApplicationById;
+using StudentDocumentManagement.Core.Application.Applications.Queries.GetApplicationToUpdate;
 
 namespace StudentDocumentManagement.Api.Controllers;
 
@@ -40,6 +41,16 @@ public class ApplicationController : ApiController
     public async Task<IActionResult> GetApplicationById(Guid applicationId)
     {
         var query = new GetApplicationByIdQuery(applicationId);
+
+        var result = await Sender.Send(query);
+
+        return result.Success ? Ok(result) : NotFound(result);
+    }
+
+    [HttpGet("update/{applicationId:guid}")]
+    public async Task<IActionResult> GetApplicationToUpdate(Guid applicationId)
+    {
+        var query = new GetApplicationToUpdateQuery(applicationId);
 
         var result = await Sender.Send(query);
 
