@@ -11,6 +11,7 @@ public class ApplicationStudentFileMapper : Profile
         CreateMap<ApplicationStudentFile, ApplicationStudentFileDto>()
             .ForMember(x => x.Url, m => m.MapFrom(f => f.StudentFile!.Url))
             .ForMember(x => x.FileType, m => m.MapFrom(f => f.StudentFile!.FileType))
+            .ForMember(x => x.Status, m => m.MapFrom(f => f.StudentFile!.Status))
             .ReverseMap();
         
         CreateMap<ApplicationStudentFile, ApplicationStudentFileCreateDto>()
