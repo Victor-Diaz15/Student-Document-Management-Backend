@@ -67,7 +67,7 @@ internal class RegisterStudentCommandHandler : ICommandHandler<RegisterStudentCo
         if (result.Success) 
         {
             var notification = new StudentRegisteredEvent(request.Email, result.Data!.Username, request.Password);
-            await _mediator.Publish(notification);
+            await _mediator.Publish(notification, cancellationToken);
         }
 
         return result;

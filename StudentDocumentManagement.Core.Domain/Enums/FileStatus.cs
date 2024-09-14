@@ -4,5 +4,6 @@ public enum FileStatus
 {
     Nuevo,
     Devuelto,
+    Corregido,
     Validado
 }
