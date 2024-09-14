@@ -5,5 +5,6 @@ public enum ApplicationStatus
     Nueva,
     Devuelta,
     Validada,
+    Corregida,
     Completada
 }

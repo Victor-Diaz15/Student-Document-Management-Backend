@@ -59,6 +59,7 @@ public class ApplicationRepository : GenericBaseRepository<Application>, IApplic
     public async Task<Application?> GetApplicationToUpdate(Guid applicationId)
     {
         var application = await _dbContext.Applications
+            .AsNoTracking()
             .Include(x => x.Service!)
             .Include(x => x.Files!.Where(x => x.StudentFile!.Status != FileStatus.Validado))
             .ThenInclude(x => x.StudentFile)
