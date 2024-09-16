@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentDocumentManagement.Infrastructure.Persistence.Contexts;
 
@@ -11,9 +12,11 @@ using StudentDocumentManagement.Infrastructure.Persistence.Contexts;
 namespace StudentDocumentManagement.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240916014251_add_field_ApplicationNumberId_table_Application")]
+    partial class add_field_ApplicationNumberId_table_Application
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
