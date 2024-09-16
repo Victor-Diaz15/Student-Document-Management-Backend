@@ -22,7 +22,7 @@ internal class GetApplicationsByFiltersQueryHandler : IQueryHandler<GetApplicati
 
     public async Task<ResultT<List<ApplicationDto>>> Handle(GetApplicationsByFiltersQuery request, CancellationToken cancellationToken)
     {
-        var list = await _applicationRepository.GetApplicationsByFilters(request.StudentId, request.ServiceId, request.Status);
+        var list = await _applicationRepository.GetApplicationsByFilters(request.StudentId, request.ApplicationNumberId, request.ServiceId, request.Status);
 
         if (list != null && list.Count > 0)
         {

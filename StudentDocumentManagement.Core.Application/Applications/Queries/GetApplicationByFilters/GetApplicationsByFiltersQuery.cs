@@ -6,5 +6,6 @@ namespace StudentDocumentManagement.Core.Application.Applications.Queries.GetApp
 
 public sealed record GetApplicationsByFiltersQuery(
     string? StudentId, 
+    string? ApplicationNumberId, 
     string? ServiceId, 
     ApplicationStatus? Status) : IQuery<List<ApplicationDto>>;

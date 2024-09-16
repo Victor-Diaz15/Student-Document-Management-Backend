@@ -14,6 +14,19 @@ public class ApplicationRepository : GenericBaseRepository<Application>, IApplic
         _dbContext = dbContext;
     }
 
+    public async Task<Guid> CompleteApplication(List<Guid> applicationIds)
+    {
+        Guid applicationNumberId = Guid.NewGuid();
+
+        await _dbContext.Applications
+            .Where(a => applicationIds.Contains(a.Id))
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(a => a.ApplicationNumberId, applicationNumberId)
+                .SetProperty(a => a.Status, ApplicationStatus.Completada));
+
+        return applicationNumberId;
+    }
+
     public async Task<List<Application>> GetAllWithIncludeAndThenInclude()
     {
         var list = await _dbContext.Applications
@@ -26,7 +39,7 @@ public class ApplicationRepository : GenericBaseRepository<Application>, IApplic
         return list;
     }
 
-    public async Task<List<Application>> GetApplicationsByFilters(string? studentId, string? serviceId, ApplicationStatus? status)
+    public async Task<List<Application>> GetApplicationsByFilters(string? studentId, string? applicationNumberId, string? serviceId, ApplicationStatus? status)
     {
         var resultList = new List<Application>();
         var query = base.GetQueryable();
@@ -34,6 +47,11 @@ public class ApplicationRepository : GenericBaseRepository<Application>, IApplic
         if (!string.IsNullOrEmpty(studentId))
         {
             query = query.Where(x => x.StudentId.ToString() == studentId);
+        }
+
+        if (!string.IsNullOrEmpty(applicationNumberId))
+        {
+            query = query.Where(x => x.ApplicationNumberId.ToString() == applicationNumberId);
         }
 
         if (!string.IsNullOrEmpty(serviceId))

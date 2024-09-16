@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudentDocumentManagement.Api.Filters;
 using StudentDocumentManagement.Core.Application.Applications.Commands.AddApplication;
+using StudentDocumentManagement.Core.Application.Applications.Commands.CompleteApplication;
 using StudentDocumentManagement.Core.Application.Applications.Queries.GetAllApplications;
 using StudentDocumentManagement.Core.Application.Applications.Queries.GetApplicationByFilters;
 using StudentDocumentManagement.Core.Application.Applications.Queries.GetApplicationById;
@@ -70,4 +71,16 @@ public class ApplicationController : ApiController
         return NoContent();
     }
 
+    //[ServiceFilter(
+    //    typeof(
+    //    CommandValidatorFilter<AddApplicationCommand,
+    //        ApplicationController,
+    //        AddApplicationCommandValidator>
+    //    ))]
+    [HttpPatch("completeApplications")]
+    public async Task<IActionResult> CompleteApplications([FromBody] CompleteApplicationCommand command)
+    {
+        var result = await Sender.Send(command);
+        return Ok(result);
+    }
 }

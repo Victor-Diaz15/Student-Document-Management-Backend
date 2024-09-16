@@ -7,7 +7,8 @@ public interface IApplicationRepository : IGenericBaseRepository<Entities.Applic
 {
     Task<Entities.Application?> GetByIdWithIncludeAndThenInclude(Guid applicationId);
     Task<List<Entities.Application>> GetAllWithIncludeAndThenInclude();
-    Task<List<Entities.Application>> GetApplicationsByFilters(string? studentId, string? serviceId, ApplicationStatus? status);
+    Task<List<Entities.Application>> GetApplicationsByFilters(string? studentId, string? applicationNumberId, string? serviceId, ApplicationStatus? status);
     Task<Entities.Application?> GetApplicationToUpdate(Guid applicationId);
+    Task<Guid> CompleteApplication(List<Guid> applicationIds);
 
 }
