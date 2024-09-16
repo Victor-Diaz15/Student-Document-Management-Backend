@@ -6,6 +6,7 @@ namespace StudentDocumentManagement.Core.Application.Dtos.Applications;
 public class ApplicationDto
 {
     public Guid Id { get; set; }
+    public Guid? ApplicationNumberId { get; set; }
     public Guid StudentId { get; set; }
     public string StudentName { get; set; } = string.Empty;
     public string StudentIdentification { get; set; } = string.Empty;
