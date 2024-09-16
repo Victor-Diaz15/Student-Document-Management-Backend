@@ -10,4 +10,5 @@ public class Application : AuditableEntityBase
     public Service? Service { get; set; }
     public ApplicationStatus Status { get; set; }
     public List<ApplicationStudentFile>? Files { get; set; }
+    public Guid? ApplicationNumberId { get; set; }
 }
