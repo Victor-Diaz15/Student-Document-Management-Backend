@@ -20,5 +20,6 @@ public interface IAccountService
     Task<ResultT<string>> ConfirmAccountAsync(string userId, string token);
     Task<bool> IsEmailUniqueAsync(string email);
     Task<bool> IsUserNameUniqueAsync(string userName);
+    Task<bool> IsStudentIdUniqueAsync(string studentId);
     Task<bool> IsIdentityCardUniqueAsync(string identityCard);
 }

@@ -29,6 +29,10 @@ public class RegisterStudentCommandValidator : AbstractValidator<RegisterStudent
             .NotEmpty()
             .EmailAddress();
 
+        RuleFor(x => x.StudentId)
+            .NotEmpty()
+            .MaximumLength(50);
+
         RuleFor(x => x.Password)
             .NotEmpty();
 

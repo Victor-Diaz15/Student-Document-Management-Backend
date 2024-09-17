@@ -35,6 +35,12 @@ internal class RegisterStudentCommandHandler : ICommandHandler<RegisterStudentCo
             return new Result(false, $"IdentityCard '{request.IdentityCard}' already registered.");
         }
 
+        var studenIdExisted = await _accountService.IsStudentIdUniqueAsync(request.StudentId);
+        if (studenIdExisted)
+        {
+            return new Result(false, $"StudentId '{request.StudentId}' already registered.");
+        }
+
         //Logica de cargar la foto de perfil del usuario
         string profilePictureUrl = "";
 
@@ -57,6 +63,7 @@ internal class RegisterStudentCommandHandler : ICommandHandler<RegisterStudentCo
             FirstName = request.FirstName,
             LastName = request.LastName,
             Email = request.Email,
+            StudentId = request.StudentId,
             Password = request.Password,
             PhoneNumber = request.PhoneNumber,
             ProfilePicture = profilePictureUrl
