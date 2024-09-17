@@ -97,9 +97,12 @@ public class AccountService : IAccountService
             case (int)Roles.DepartmentalManager:
                 await _userManager.AddToRoleAsync(user, Roles.DepartmentalManager.ToString().ToUpper());
                 break;
+            
+            case (int)Roles.Admin:
+                await _userManager.AddToRoleAsync(user, Roles.Admin.ToString().ToUpper());
+                break;
 
             default:
-                await _userManager.AddToRoleAsync(user, Roles.Admin.ToString().ToUpper());
                 break;
         }
 
@@ -113,15 +116,13 @@ public class AccountService : IAccountService
     {
         ResultT<RegisterStudentResponseDto> res = new(new());
 
-        string studenId = GenerateStudentId();
-
         var user = new Student
         {
             IdentityCard = req.IdentityCard,
-            StudentId = studenId,
+            StudentId = req.StudentId,
             FirstName = req.FirstName,
             LastName = req.LastName,
-            UserName = studenId,
+            UserName = req.StudentId,
             Email = req.Email,
             PhoneNumber = req.PhoneNumber,
             Rol = (int)Roles.Student,
@@ -421,6 +422,11 @@ public class AccountService : IAccountService
     public async Task<bool> IsUserNameUniqueAsync(string userName)
     {
         return await _identityDbContext.Users.AnyAsync(x => x.NormalizedUserName == userName.ToUpper());
+    }
+
+    public async Task<bool> IsStudentIdUniqueAsync(string studentId)
+    {
+        return await _identityDbContext.Students.AnyAsync(x => x.StudentId.ToLower() == studentId.ToLower());
     }
 
     public async Task<bool> IsIdentityCardUniqueAsync(string identityCard)

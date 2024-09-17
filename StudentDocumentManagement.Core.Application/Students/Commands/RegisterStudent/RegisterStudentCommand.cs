@@ -9,6 +9,7 @@ public sealed record RegisterStudentCommand(
     string FirstName,
     string LastName,
     string Email,
+    string StudentId,
     string Password,
     string PhoneNumber,
     [DataType(DataType.Upload)]
