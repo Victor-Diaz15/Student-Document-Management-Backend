@@ -5,17 +5,17 @@ VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{E2B2DC2A-7092-4EFB-AE1B-BD1D584E1C37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentDocumentManagement.Core.Domain", "StudentDocumentManagement.Core.Domain\StudentDocumentManagement.Core.Domain.csproj", "{DCD108CA-CA71-457D-973E-458E13962F1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentDocumentManagement.Core.Domain", "StudentDocumentManagement.Core.Domain\StudentDocumentManagement.Core.Domain.csproj", "{DCD108CA-CA71-457D-973E-458E13962F1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentDocumentManagement.Core.Application", "StudentDocumentManagement.Core.Application\StudentDocumentManagement.Core.Application.csproj", "{912ECCDC-AADF-4DB7-9CB2-DAE21080473D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentDocumentManagement.Core.Application", "StudentDocumentManagement.Core.Application\StudentDocumentManagement.Core.Application.csproj", "{912ECCDC-AADF-4DB7-9CB2-DAE21080473D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentDocumentManagement.Infrastructure", "StudentDocumentManagement.Infrastructure\StudentDocumentManagement.Infrastructure.csproj", "{BE3F7A06-305D-4528-A3EA-18533C6AE5A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentDocumentManagement.Infrastructure", "StudentDocumentManagement.Infrastructure\StudentDocumentManagement.Infrastructure.csproj", "{BE3F7A06-305D-4528-A3EA-18533C6AE5A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentDocumentManagement.Infrastructure.Persistence", "StudentDocumentManagement.Infrastructure.Persistence\StudentDocumentManagement.Infrastructure.Persistence.csproj", "{FF3DE83F-E991-496E-AEBF-86381726F6A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentDocumentManagement.Infrastructure.Persistence", "StudentDocumentManagement.Infrastructure.Persistence\StudentDocumentManagement.Infrastructure.Persistence.csproj", "{FF3DE83F-E991-496E-AEBF-86381726F6A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentDocumentManagement.Api", "StudentDocumentManagement.Api\StudentDocumentManagement.Api.csproj", "{BFDA76BF-342E-4604-ABF2-B458BB7522BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentDocumentManagement.Api", "StudentDocumentManagement.Api\StudentDocumentManagement.Api.csproj", "{BFDA76BF-342E-4604-ABF2-B458BB7522BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentDocumentManagement.Infrastructure.Identity", "StudentDocumentManagement.Infrastructure.Identity\StudentDocumentManagement.Infrastructure.Identity.csproj", "{C79B80CD-C7A2-44CE-9CA2-58090300503D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentDocumentManagement.Infrastructure.Identity", "StudentDocumentManagement.Infrastructure.Identity\StudentDocumentManagement.Infrastructure.Identity.csproj", "{C79B80CD-C7A2-44CE-9CA2-58090300503D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

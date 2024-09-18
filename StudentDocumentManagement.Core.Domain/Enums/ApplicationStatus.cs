@@ -6,5 +6,6 @@ public enum ApplicationStatus
     Devuelta,
     Validada,
     Corregida,
-    Completada
+    Completada,
+    Pagada
 }
