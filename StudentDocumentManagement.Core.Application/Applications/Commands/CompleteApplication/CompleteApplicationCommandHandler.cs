@@ -4,7 +4,7 @@ using StudentDocumentManagement.Core.Domain.Abstractions;
 
 namespace StudentDocumentManagement.Core.Application.Applications.Commands.CompleteApplication;
 
-internal class CompleteApplicationCommandHandler : ICommandHandler<CompleteApplicationCommand, Guid>
+internal class CompleteApplicationCommandHandler : ICommandHandler<CompleteApplicationCommand, string>
 {
     private readonly IApplicationRepository _applicationRepository;
 
@@ -13,10 +13,10 @@ internal class CompleteApplicationCommandHandler : ICommandHandler<CompleteAppli
         _applicationRepository = applicationRepository;
     }
 
-    public async Task<ResultT<Guid>> Handle(CompleteApplicationCommand request, CancellationToken cancellationToken)
+    public async Task<ResultT<string>> Handle(CompleteApplicationCommand request, CancellationToken cancellationToken)
     {
         var applicationNumberId = await _applicationRepository.CompleteApplication(request.ApplicationIds);
 
-        return new ResultT<Guid>(true, applicationNumberId);
+        return new ResultT<string>(true, applicationNumberId);
     }
 }
