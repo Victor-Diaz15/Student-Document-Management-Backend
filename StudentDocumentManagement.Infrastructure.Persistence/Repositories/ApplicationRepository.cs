@@ -14,9 +14,9 @@ public class ApplicationRepository : GenericBaseRepository<Application>, IApplic
         _dbContext = dbContext;
     }
 
-    public async Task<Guid> CompleteApplication(List<Guid> applicationIds)
+    public async Task<string> CompleteApplication(List<Guid> applicationIds)
     {
-        Guid applicationNumberId = Guid.NewGuid();
+        string applicationNumberId = GenerateApplicationNumberId();
 
         await _dbContext.Applications
             .Where(a => applicationIds.Contains(a.Id))
@@ -51,7 +51,7 @@ public class ApplicationRepository : GenericBaseRepository<Application>, IApplic
 
         if (!string.IsNullOrEmpty(applicationNumberId))
         {
-            query = query.Where(x => x.ApplicationNumberId.ToString() == applicationNumberId);
+            query = query.Where(x => x.ApplicationNumberId == applicationNumberId);
         }
 
         if (!string.IsNullOrEmpty(serviceId))
@@ -96,5 +96,27 @@ public class ApplicationRepository : GenericBaseRepository<Application>, IApplic
             .FirstOrDefaultAsync(x => x.Id == applicationId);
 
         return application;
+    }
+
+    private string GenerateApplicationNumberId()
+    {
+        // Obtén el último número de matrícula generado
+        var lastApplicationNumberId = _dbContext.Applications
+            .OrderByDescending(s => s.ApplicationNumberId)
+            .Select(s => s.ApplicationNumberId)
+            .FirstOrDefault();
+
+        // Si no hay números anteriores, empieza desde PG-0001
+        if (string.IsNullOrEmpty(lastApplicationNumberId) || !lastApplicationNumberId.StartsWith('P'))
+        {
+            return "PG-0001";
+        }
+
+        // Extrae la parte numérica del último número
+        var lastNumber = int.Parse(lastApplicationNumberId.Substring(4));
+        var newNumber = lastNumber + 1;
+
+        // Genera el nuevo número de matrícula
+        return $"PG-{newNumber:D4}";
     }
 }
