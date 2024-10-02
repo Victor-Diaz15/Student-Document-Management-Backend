@@ -23,7 +23,7 @@ internal class GetAllStudentFilesQueryHandler : IQueryHandler<GetAllStudentFiles
         //Logica
         var studentFiles = await _studentFileRepository.GetAllStudentFilesAsync(request.StudentId);
 
-        if(studentFiles != null)
+        if(studentFiles != null && studentFiles.Count != 0)
         {
             foreach(var studentFile in studentFiles)
             {
