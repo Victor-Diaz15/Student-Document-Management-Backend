@@ -10,5 +10,6 @@ public interface IApplicationRepository : IGenericBaseRepository<Entities.Applic
     Task<List<Entities.Application>> GetApplicationsByFilters(string? studentId, string? applicationNumberId, string? serviceId, ApplicationStatus? status);
     Task<Entities.Application?> GetApplicationToUpdate(Guid applicationId);
     Task<string> CompleteApplication(List<Guid> applicationIds);
+    Task<List<Entities.Application>> GetApplicationsByApplicationsIds(List<Guid> applicationIds);
 
 }

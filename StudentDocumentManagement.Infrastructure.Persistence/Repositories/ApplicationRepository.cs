@@ -39,6 +39,17 @@ public class ApplicationRepository : GenericBaseRepository<Application>, IApplic
         return list;
     }
 
+    public async Task<List<Application>> GetApplicationsByApplicationsIds(List<Guid> applicationIds)
+    {
+        var list = await _dbContext.Applications
+            .AsNoTracking()
+            .Include(x => x.Service!)
+            .Where(x => applicationIds.Contains(x.Id))
+            .ToListAsync();
+
+        return list;
+    }
+
     public async Task<List<Application>> GetApplicationsByFilters(string? studentId, string? applicationNumberId, string? serviceId, ApplicationStatus? status)
     {
         var resultList = new List<Application>();
